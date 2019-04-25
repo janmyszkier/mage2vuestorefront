@@ -65,11 +65,10 @@ class ElasticsearchAdapter extends AbstractNosqlAdapter {
 
     const itemtbu = item;
 
-    console.log(collectionName)
-    console.log(item)
+    let indexName = this.config.db.indexName + '_' + collectionName;
 
     this.db.update({
-      index: this.config.db.indexName,
+      index: indexName,
       id: item.id,
       type: collectionName,
       body: {
