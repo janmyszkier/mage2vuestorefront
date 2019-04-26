@@ -92,7 +92,7 @@ class ElasticsearchAdapter extends AbstractNosqlAdapter {
 
     if (transactionKey) {
       this.db.deleteByQuery({ // requires ES 5.5
-        index: this.config.db.indexName,
+        index: this.config.db.indexName+'_'+collectionName,
         conflicts: 'proceed',
         type: collectionName,
          body: {
@@ -124,7 +124,7 @@ class ElasticsearchAdapter extends AbstractNosqlAdapter {
     for (let doc of items) {
       requests.push({
         update: {
-          _index: this.config.db.indexName,
+          _index: this.config.db.indexName+'_'+collectionName,
           _id: doc.id,
           _type: collectionName,
         }
