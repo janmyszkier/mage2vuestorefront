@@ -42,8 +42,8 @@ class ElasticsearchAdapter extends AbstractNosqlAdapter {
   */  
   getDocuments(collectionName, queryBody) {
     return new Promise((resolve, reject) => {
-      this.db.search({ // requires ES 5.5
-        index: this.config.db.indexName,
+      this.db.search({
+        index: this.config.db.indexName + '_' + collectionName,
         type: collectionName,
           body: queryBody
       }, function (error, response) {
@@ -92,7 +92,7 @@ class ElasticsearchAdapter extends AbstractNosqlAdapter {
 
     if (transactionKey) {
       this.db.deleteByQuery({ // requires ES 5.5
-        index: this.config.db.indexName+'_'+collectionName,
+        index: this.config.db.indexName + '_' + collectionName,
         conflicts: 'proceed',
         type: collectionName,
          body: {
@@ -124,7 +124,7 @@ class ElasticsearchAdapter extends AbstractNosqlAdapter {
     for (let doc of items) {
       requests.push({
         update: {
-          _index: this.config.db.indexName+'_'+collectionName,
+          _index: this.config.db.indexName + '_' + collectionName,
           _id: doc.id,
           _type: collectionName,
         }
